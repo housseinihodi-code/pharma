@@ -2,15 +2,9 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
-import axios from 'axios';
+import apiClient from '../../services/apiClient';
 import { loginSuccess } from '../../store/authSlice';
 import { AppDispatch } from '../../store';
-
-const DEMO_ACCOUNTS = [
-  { label: 'Client', email: 'client@demo.com', password: 'Client2024!', color: 'bg-green-50 hover:bg-green-100 text-green-700' },
-  { label: 'Pharmacien', email: 'pharma@demo.com', password: 'Pharma2024!', color: 'bg-green-50 hover:bg-green-100 text-green-700' },
-  { label: 'Admin', email: 'admin@demo.com', password: 'Admin2024!', color: 'bg-purple-50 hover:bg-purple-100 text-purple-700' },
-];
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -27,11 +21,9 @@ export default function Login() {
     setLoading(true);
 
     try {
-      // Appel direct axios avec URL absolue pour contourner tout problème de proxy
-      const res = await axios.post(
-        '/api/auth/login',
+      const res = await apiClient.post(
+        '/auth/login',
         { email: email.trim().toLowerCase(), password },
-        { headers: { 'Content-Type': 'application/json' } }
       );
 
       const data = res.data;
@@ -56,12 +48,6 @@ export default function Login() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fillDemo = (acc: typeof DEMO_ACCOUNTS[0]) => {
-    setEmail(acc.email);
-    setPassword(acc.password);
-    setErrorMsg('');
   };
 
   return (
@@ -151,27 +137,6 @@ export default function Login() {
               S'inscrire
             </Link>
           </div>
-        </div>
-
-        {/* Comptes démo — clic pour auto-remplir */}
-        <div className="mt-4 bg-white rounded-2xl shadow-sm p-5 border border-gray-100">
-          <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Comptes de démonstration (cliquez pour remplir)
-          </p>
-          <div className="flex flex-col gap-2">
-            {DEMO_ACCOUNTS.map((acc) => (
-              <button
-                key={acc.email}
-                type="button"
-                onClick={() => fillDemo(acc)}
-                className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${acc.color}`}
-              >
-                <span>{acc.label}</span>
-                <span className="text-xs opacity-70">{acc.email}</span>
-              </button>
-            ))}
-          </div>
-          <p className="text-xs text-gray-400 mt-2 text-center">Cliquer sur un compte pour remplir automatiquement</p>
         </div>
 
       </div>
