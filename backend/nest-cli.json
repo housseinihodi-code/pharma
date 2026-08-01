@@ -1,0 +1,9 @@
+{
+  "language": "ts",
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "assets": [],
+    "watchAssets": true,
+    "deleteOutDir": true
+  }
+}

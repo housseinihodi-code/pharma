@@ -1,0 +1,75 @@
+@startuml Diagramme_Deploiement
+skinparam backgroundColor #FAFAFA
+skinparam node {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
+skinparam artifact {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+}
+skinparam database {
+  BackgroundColor #FFF3E0
+  BorderColor #E65100
+}
+skinparam cloud {
+  BackgroundColor #F3E5F5
+  BorderColor #6A1B9A
+}
+
+title Diagramme de Déploiement — PharmaConnect
+
+node "Appareil Mobile\n(Android / iOS)" as Mobile {
+  artifact "PharmaConnect PWA\n(Installée depuis Chrome)" as PWAApp
+  artifact "Service Worker\n(Cache Workbox)" as SWCache
+  PWAApp --> SWCache
+}
+
+node "Navigateur Web\n(Desktop)" as Desktop {
+  artifact "PharmaConnect SPA\n(React + Redux)" as WebApp
+}
+
+node "Serveur d'Application\n(VPS Ubuntu)" as Server {
+  node "Process NestJS\n(Node.js 18)" as NestApp {
+    artifact "API REST\n(:3000/api)" as API
+    artifact "WebSocket Gateway\n(:3000/delivery\n:3000/messages)" as WSG
+    artifact "Static Files\n(:3000/uploads)" as Static
+  }
+  node "Processus MongoDB\n(mongod :27017)" as MongoDB {
+    database "pharmacy_db" as DB
+  }
+  NestApp --> MongoDB : mongoose driver
+}
+
+cloud "Services Externes" {
+  artifact "OpenStreetMap\n(Tuiles cartographiques)" as OSM
+  artifact "MTN Mobile Money\nAPI" as MTN
+  artifact "Orange Money\nAPI" as Orange
+  artifact "SMTP\n(Emails)" as SMTP
+}
+
+Mobile ..> Server : HTTPS (:443)\nWebSocket (WSS)
+Desktop ..> Server : HTTPS (:443)\nWebSocket (WSS)
+Mobile ..> OSM : HTTPS (tuiles carte)
+Desktop ..> OSM : HTTPS (tuiles carte)
+Server ..> MTN : HTTPS (paiement)
+Server ..> Orange : HTTPS (paiement)
+Server ..> SMTP : SMTP (:587)
+
+note right of Mobile
+  PWA installable :
+  - Accessible hors ligne
+  (Service Worker + Cache)
+  - Notifications push
+  - Icône sur écran d'accueil
+  - Accès GPS natif
+end note
+
+note right of Server
+  Architecture mono-serveur
+  (Phase MVP)
+  Scalable vers microservices
+  avec Docker + Kubernetes
+end note
+
+@enduml

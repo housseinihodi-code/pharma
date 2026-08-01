@@ -1,0 +1,107 @@
+@startuml Diagramme_Composants
+skinparam backgroundColor #FAFAFA
+
+skinparam component {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
+skinparam package {
+  BackgroundColor #F1F8E9
+  BorderColor #558B2F
+}
+skinparam interface {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+}
+skinparam database {
+  BackgroundColor #FFF3E0
+  BorderColor #E65100
+}
+
+title Diagramme de Composants — Architecture PharmaConnect
+
+package "Client Mobile/Web (PWA)" {
+  component [React SPA] as SPA
+  component [Redux Store] as Redux
+  component [Service Worker\n(Workbox)] as SW
+  component [Socket.io Client] as SocketClient
+
+  SPA --> Redux : dispatch / select
+  SPA --> SW : cache stratégique
+  SPA --> SocketClient : WebSocket
+}
+
+package "Backend NestJS" {
+  package "API REST" {
+    component [AuthModule] as Auth
+    component [UsersModule] as Users
+    component [PharmaciesModule] as Pharma
+    component [MedicationsModule] as Meds
+    component [OrdersModule] as Orders
+    component [CartModule] as Cart
+    component [DeliveriesModule] as Deliv
+    component [PaymentsModule] as Pay
+    component [UploadModule] as Upload
+    component [NotificationsModule] as Notif
+    component [MessagesModule] as Msg
+    component [AnalyticsModule] as Anal
+    component [GeolocationModule] as Geo
+  }
+
+  package "WebSocket" {
+    component [DeliveryGateway\n(Socket.io)] as WS
+    component [MessagesGateway] as MsgWS
+  }
+
+  package "Infrastructure" {
+    component [JwtAuthGuard] as JWTGuard
+    component [RolesGuard] as RolesG
+    component [ValidationPipe] as VP
+    component [ExceptionFilter] as EF
+    component [ThrottlerGuard] as TG
+  }
+}
+
+database "MongoDB\n(Mongoose)" {
+  component [Users Collection] as UCol
+  component [Pharmacies Collection] as PCol
+  component [Medications Collection] as MCol
+  component [Orders Collection] as OCol
+  component [Deliveries Collection] as DCol
+  component [Notifications Collection] as NCol
+  component [Messages Collection] as MSCol
+  component [Carts Collection] as CCol
+}
+
+component [Système de fichiers\n/uploads] as FS
+
+' Connexions Client -> Backend
+SPA ..> Auth : HTTP /api/auth/*
+SPA ..> Pharma : HTTP /api/pharmacies/*
+SPA ..> Meds : HTTP /api/medications/*
+SPA ..> Orders : HTTP /api/orders/*
+SPA ..> Cart : HTTP /api/cart/*
+SPA ..> Deliv : HTTP /api/deliveries/*
+SocketClient ..> WS : ws:// /delivery
+SocketClient ..> MsgWS : ws:// /messages
+
+' Guards & Pipes
+Auth --> JWTGuard
+JWTGuard --> RolesG
+RolesG --> VP
+VP --> EF
+
+' Backend -> DB
+Auth --> UCol
+Users --> UCol
+Pharma --> PCol
+Meds --> MCol
+Orders --> OCol
+Cart --> CCol
+Deliv --> DCol
+Notif --> NCol
+Msg --> MSCol
+WS --> DCol
+Upload --> FS
+
+@enduml

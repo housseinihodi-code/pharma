@@ -1,0 +1,79 @@
+@startuml Sequence_Commande
+skinparam backgroundColor #FAFAFA
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+skinparam sequenceParticipantBackgroundColor #E8F5E9
+skinparam sequenceParticipantBorderColor #2E7D32
+
+title Diagramme de Séquence — Passage d'une Commande
+
+actor "Client" as C
+participant "Frontend\n(React)" as FE
+participant "CartController" as CC
+participant "OrdersController" as OC
+participant "OrdersService" as OS
+participant "MedicationsService" as MS
+participant "CartService" as CS
+participant "NotifService" as NS
+database "MongoDB" as DB
+
+== Ajout au panier ==
+
+C -> FE : Cliquer "Ajouter au panier"
+FE -> CC : POST /api/cart/items\n{ medicationId, quantity }
+CC -> CS : addItem(userId, medicationId, qty)
+CS -> DB : Upsert CartItem
+DB --> CS : Cart mis à jour
+CS --> CC : Cart
+CC --> FE : 200 - Panier mis à jour
+FE --> C : Badge panier mis à jour
+
+== Validation de la commande ==
+
+C -> FE : Aller au panier → Confirmer
+FE -> OC : POST /api/orders\n{ pharmacyId, items, deliveryType,\n  deliveryAddress, paymentMethod }
+OC -> OS : create(userId, dto)
+
+loop Pour chaque article
+  OS -> MS : findById(medicationId)
+  MS -> DB : findById
+  DB --> MS : Medication
+  MS --> OS : medication
+  OS -> OS : Vérifier stock >= quantité
+  OS -> OS : Vérifier appartenance pharmacie
+  OS -> OS : Calculer sous-total
+end
+
+OS -> DB : orderModel.create({ userId, pharmacyId,\n  items, totalAmount, status:'pending' })
+DB --> OS : Order créée
+
+loop Pour chaque article (décrémentation stock)
+  OS -> MS : updateStock(id, -qty, 'system')
+  MS -> DB : update({ stock: stock - qty })
+end
+
+OS -> CS : clearCart(userId)
+CS -> DB : Cart.deleteMany({ userId })
+
+OS -> NS : create(userId, '✅ Commande reçue', ...)
+NS -> DB : Notification.create(...)
+
+OS --> OC : Order (populated)
+OC --> FE : 201 - { order }
+FE --> C : Redirection /orders/:id\n"Commande passée avec succès"
+
+== Mise à jour du statut par le pharmacien ==
+
+participant "Pharmacien" as P
+
+P -> FE : Changer statut → "En préparation"
+FE -> OC : PUT /api/orders/:id/status\n{ status: 'preparing' }
+OC -> OS : updateStatus(id, dto, userId, 'pharmacist')
+OS -> DB : findByIdAndUpdate({ status })
+OS -> NS : Notifier le client
+NS -> DB : Notification.create(...)
+OS --> OC : Order mise à jour
+OC --> FE : 200 - Order
+FE --> P : Statut mis à jour
+
+@enduml

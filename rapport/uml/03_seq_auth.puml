@@ -1,0 +1,64 @@
+@startuml Sequence_Authentification
+skinparam backgroundColor #FAFAFA
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+skinparam sequenceParticipantBorderColor #2E7D32
+skinparam sequenceParticipantBackgroundColor #E8F5E9
+skinparam sequenceLifeLineBorderColor #81C784
+
+title Diagramme de Séquence — Authentification & Refresh Token
+
+actor "Utilisateur" as U
+participant "Frontend\n(React)" as FE
+participant "AuthController\n(NestJS)" as AC
+participant "AuthService" as AS
+participant "JwtService" as JWT
+participant "UserModel\n(MongoDB)" as DB
+
+== Connexion ==
+
+U -> FE : Saisir email + mot de passe
+FE -> AC : POST /api/auth/login\n{ email, password }
+AC -> AS : login(dto)
+AS -> DB : findOne({ email })\n.populate('pharmacyId')
+DB --> AS : User document
+AS -> AS : bcrypt.compare(password, hash)
+alt Mot de passe incorrect
+  AS --> AC : throw UnauthorizedException
+  AC --> FE : 401 - Email ou MDP incorrect
+  FE --> U : Afficher erreur
+else Connexion réussie
+  AS -> JWT : sign({ sub, email, role }, { expiresIn: '15m' })
+  JWT --> AS : accessToken
+  AS -> JWT : sign({ sub, email, role }, { expiresIn: '7d' })
+  JWT --> AS : refreshToken
+  AS -> DB : update({ refreshToken: bcrypt.hash(token) })
+  AS --> AC : { user, accessToken, refreshToken }
+  AC --> FE : 200 - { user, accessToken, refreshToken }
+  FE -> FE : localStorage.setItem('authToken', accessToken)
+  FE -> FE : dispatch(loginSuccess({ user, token }))
+  FE --> U : Rediriger vers accueil
+end
+
+== Rafraîchissement du Token (Token Expiré) ==
+
+FE -> AC : POST /api/auth/refresh\n{ refreshToken }
+AC -> AS : refreshTokens(refreshToken)
+AS -> JWT : decode(refreshToken) → { sub }
+AS -> DB : findById(sub)
+DB --> AS : User document
+AS -> AS : bcrypt.compare(refreshToken, user.refreshToken)
+alt Token invalide
+  AS --> AC : throw UnauthorizedException
+  AC --> FE : 401 - Session expirée
+  FE --> U : Redirection vers /login
+else Token valide
+  AS -> JWT : sign(payload, { expiresIn: '15m' })
+  JWT --> AS : nouveau accessToken
+  AS -> DB : update({ refreshToken: hash(nouveauToken) })
+  AS --> AC : { accessToken, refreshToken }
+  AC --> FE : 200 - Nouveaux tokens
+  FE -> FE : Relancer la requête initiale
+end
+
+@enduml

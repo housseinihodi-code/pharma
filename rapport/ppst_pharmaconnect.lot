@@ -1,0 +1,23 @@
+\selectlanguage *{french}
+\bgroup 
+\selectlanguage *{english}
+\egroup 
+\selectlanguage *{french}
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {1.1}{\ignorespaces Objectifs specifiques et indicateurs de reussite\relax }}{4}{table.caption.9}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {2.1}{\ignorespaces Panorama des solutions pharmaceutiques numeriques internationales\relax }}{7}{table.caption.10}%
+\contentsline {table}{\numberline {2.2}{\ignorespaces Benchmarking des solutions -- Criteres d'evaluation\relax }}{8}{table.caption.11}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Modules backend de PharmaConnect\relax }}{11}{table.caption.13}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Unites d'enseignement mobilisees dans le projet\relax }}{13}{table.caption.14}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces Profil des membres de l'equipe\relax }}{14}{table.caption.15}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Repartition des roles dans l'equipe\relax }}{15}{table.caption.16}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Matrice des responsabilites (RACI)\relax }}{15}{table.caption.17}%
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {5.1}{\ignorespaces Stack technologique de PharmaConnect\relax }}{16}{table.caption.18}%
+\contentsline {table}{\numberline {5.2}{\ignorespaces Tableau de bord des indicateurs de performance\relax }}{19}{table.caption.19}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }

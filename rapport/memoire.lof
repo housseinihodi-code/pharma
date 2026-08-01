@@ -1,0 +1,16 @@
+\babel@toc {french}{}
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagramme des cas d'utilisation — PharmaConnect\relax }}{11}{figure.caption.4}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagramme de classes — PharmaConnect (12 entités)\relax }}{12}{figure.caption.5}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Séquence — Authentification et rafraîchissement JWT\relax }}{13}{figure.caption.6}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Séquence — Passage d'une commande (panier → confirmation)\relax }}{14}{figure.caption.7}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Séquence — Suivi GPS en temps réel via WebSocket\relax }}{15}{figure.caption.8}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Séquence — Comparateur de prix multi-pharmacies\relax }}{16}{figure.caption.9}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Diagramme d'activité — Processus complet de commande\relax }}{17}{figure.caption.10}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Diagramme d'états — Cycle de vie d'une commande (9 états)\relax }}{18}{figure.caption.11}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Diagramme de composants — Architecture NestJS + React\relax }}{18}{figure.caption.12}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Diagramme de déploiement — Infrastructure VPS\relax }}{19}{figure.caption.13}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }

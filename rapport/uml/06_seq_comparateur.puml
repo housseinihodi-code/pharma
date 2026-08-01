@@ -1,0 +1,58 @@
+@startuml Sequence_Comparateur
+skinparam backgroundColor #FAFAFA
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+skinparam sequenceParticipantBackgroundColor #E8F5E9
+skinparam sequenceParticipantBorderColor #2E7D32
+
+title Diagramme de Séquence — Comparateur de Prix
+
+actor "Utilisateur\n(non connecté)" as U
+participant "Page Comparateur\n(React)" as FE
+participant "MedicationsController" as MC
+participant "MedicationsService" as MS
+database "MongoDB" as DB
+
+== Recherche initiale ==
+
+U -> FE : Saisir "Paracétamol"
+FE -> FE : Debounce 350ms
+FE -> MC : GET /api/medications/compare?q=Paracétamol
+note right: Route @Public()\nAucune authentification requise
+
+MC -> MS : compareByName("Paracétamol", 40)
+MS -> MS : Normaliser la query\n(accents : "Paracetamol|Paracétamol")
+MS -> DB : find({ isAvailable: true, stock > 0,\n  $or: [name regex, genericName regex] })\n.populate('pharmacyId')\n.sort({ price: 1 })\n.limit(40)
+DB --> MS : Liste médicaments avec pharmacies
+
+MS -> MS : filter(m => pharmacyId.isActive)
+MS --> MC : medications[]
+MC --> FE : 200 - [ { name, price, stock, pharmacyId: {...} } ]
+
+FE -> FE : Afficher résultats triés par prix\n+ Badge "Moins cher" sur le premier
+
+== Filtrage côté client ==
+
+U -> FE : Activer "Pharmacies ouvertes seulement"
+FE -> FE : filter(m => m.pharmacyId.isOpen === true)
+FE --> U : Liste filtrée (sans appel API)
+
+== Tri par distance ==
+
+U -> FE : Activer "Trier par distance"
+FE -> FE : navigator.geolocation.getCurrentPosition()
+FE -> FE : Calculer Haversine(userLat, userLng,\n  pharmacy.lat, pharmacy.lng)
+FE -> FE : Trier par distance croissante
+FE --> U : Afficher distances + tri mis à jour
+
+== Ajout au panier ==
+
+U -> FE : Cliquer "Ajouter" (connecté requis)
+alt Non connecté
+  FE --> U : Redirection /login
+else Connecté
+  FE -> FE : dispatch(addToCart(medication))
+  FE --> U : Toast "Ajouté au panier"
+end
+
+@enduml

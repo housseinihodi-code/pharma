@@ -1,0 +1,67 @@
+@startuml Sequence_Livraison_GPS
+skinparam backgroundColor #FAFAFA
+skinparam sequenceArrowThickness 2
+skinparam roundcorner 8
+skinparam sequenceParticipantBackgroundColor #E8F5E9
+skinparam sequenceParticipantBorderColor #2E7D32
+
+title Diagramme de Séquence — Suivi GPS Livraison en Temps Réel
+
+actor "Livreur" as L
+actor "Client" as C
+participant "App Livreur\n(React)" as AL
+participant "App Client\n(React)" as AC
+participant "DeliveryGateway\n(Socket.io)" as GW
+participant "DeliveriesController" as DC
+participant "DeliveriesService" as DS
+database "MongoDB" as DB
+
+== Connexion WebSocket ==
+
+AL -> GW : connect( namespace: /delivery )\n{ token: JWT }
+GW -> GW : Vérifier JWT
+GW --> AL : connected
+
+AC -> GW : connect( namespace: /delivery )\n{ token: JWT }
+GW --> AC : connected
+
+== Début de livraison ==
+
+L -> AL : Accepter livraison #XYZ
+AL -> DC : PUT /api/deliveries/:id/status\n{ status: 'going_to_pharmacy' }
+DC -> DS : updateStatus(id, 'going_to_pharmacy', driverId)
+DS -> DB : Delivery.findByIdAndUpdate
+DS -> GW : emit('delivery_update', { orderId, status })
+GW --> AC : delivery_update → Afficher "Livreur en route"
+
+== Tracking GPS en continu ==
+
+loop Toutes les 5 secondes (watchPosition)
+  L -> AL : GPS position mise à jour\n{ lat, lng }
+  AL -> GW : emit('update_position',\n  { deliveryId, latitude, longitude })
+  GW -> DS : handleUpdatePosition(data)
+  DS -> DB : Delivery.findByIdAndUpdate\n({ driverLocation })
+  GW --> AC : emit('position_update',\n  { latitude, longitude, orderId })
+  AC -> AC : Déplacer marqueur sur carte\n+ Recalculer ETA (Haversine / 25km/h)
+  AC --> C : Afficher position + ETA
+end
+
+== Arrivée à la pharmacie ==
+
+L -> AL : Marquer "Médicaments récupérés"
+AL -> DC : PUT /api/deliveries/:id/status\n{ status: 'picked_up' }
+DC -> DS : updateStatus(...)
+DS -> GW : emit('delivery_update', { status: 'picked_up' })
+GW --> AC : Notification "Livreur en chemin vers vous"
+
+== Livraison effectuée ==
+
+L -> AL : Marquer "Livraison effectuée"
+AL -> DC : PUT /api/deliveries/:id/status\n{ status: 'delivered' }
+DC -> DS : updateStatus(...)
+DS -> DB : Order.findByIdAndUpdate({ status: 'delivered' })
+DS -> GW : emit('delivery_complete', { orderId })
+GW --> AC : Afficher "Livraison effectuée ✅"
+GW --> AL : Retour au tableau de bord
+
+@enduml

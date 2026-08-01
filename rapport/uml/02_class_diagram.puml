@@ -1,0 +1,226 @@
+@startuml Diagramme_Classes
+skinparam backgroundColor #FAFAFA
+skinparam classBackgroundColor #E8F5E9
+skinparam classBorderColor #2E7D32
+skinparam arrowColor #388E3C
+skinparam classAttributeIconSize 0
+
+title Diagramme de Classes — PharmaConnect
+
+class User {
+  -_id: ObjectId
+  -firstName: String
+  -lastName: String
+  -email: String
+  -password: String (hashed)
+  -phone: String
+  -role: Role
+  -isActive: Boolean
+  -isApproved: Boolean
+  -pharmacyId: ObjectId
+  -refreshToken: String
+  -rejectionReason: String
+  -location: GeoPoint
+  -createdAt: Date
+  --
+  +getProfile(): UserDto
+  +updateProfile(dto): User
+  +updatePassword(dto): void
+}
+
+enum Role {
+  admin
+  pharmacist
+  client
+  driver
+}
+
+class Pharmacy {
+  -_id: ObjectId
+  -name: String
+  -address: String
+  -phone: String
+  -email: String
+  -ownerId: ObjectId
+  -location: GeoPoint
+  -isOpen: Boolean
+  -isActive: Boolean
+  -openingHours: Map<String,String>
+  -rating: Number
+  -deliveryFee: Number
+  -hasDelivery: Boolean
+  -imageUrl: String
+  --
+  +toggleOpen(): void
+  +getStats(): PharmacyStats
+}
+
+class Medication {
+  -_id: ObjectId
+  -name: String
+  -genericName: String
+  -description: String
+  -price: Number
+  -stock: Number
+  -minStock: Number
+  -category: String
+  -dosage: String
+  -isAvailable: Boolean
+  -requiresPrescription: Boolean
+  -imageUrl: String
+  -pharmacyId: ObjectId
+  --
+  +updateStock(qty, op): void
+  +checkAvailability(): Boolean
+}
+
+class Order {
+  -_id: ObjectId
+  -userId: ObjectId
+  -pharmacyId: ObjectId
+  -items: OrderItem[]
+  -totalAmount: Number
+  -status: OrderStatus
+  -deliveryType: DeliveryType
+  -deliveryAddress: String
+  -deliveryLocation: GeoPoint
+  -prescriptionUrl: String
+  -prescriptionStatus: PrescriptionStatus
+  -paymentMethod: String
+  -paymentStatus: String
+  -paymentReference: String
+  -notes: String
+  -createdAt: Date
+  --
+  +updateStatus(status): void
+  +validatePrescription(decision): void
+  +cancel(): void
+}
+
+enum OrderStatus {
+  pending
+  pending_prescription
+  confirmed
+  preparing
+  ready
+  in_delivery
+  delivered
+  cancelled
+  prescription_rejected
+}
+
+enum DeliveryType {
+  delivery
+  pickup
+}
+
+class OrderItem {
+  -medicationId: ObjectId
+  -name: String
+  -quantity: Number
+  -price: Number
+  -imageUrl: String
+}
+
+class Cart {
+  -_id: ObjectId
+  -userId: ObjectId
+  -items: CartItem[]
+  -updatedAt: Date
+  --
+  +addItem(medicationId, qty): Cart
+  +removeItem(medicationId): Cart
+  +clear(): void
+  +getTotal(): Number
+}
+
+class CartItem {
+  -medicationId: ObjectId
+  -quantity: Number
+}
+
+class Delivery {
+  -_id: ObjectId
+  -orderId: ObjectId
+  -driverId: ObjectId
+  -pharmacyId: ObjectId
+  -status: DeliveryStatus
+  -driverLocation: GeoPoint
+  -pickupAddress: String
+  -deliveryAddress: String
+  -estimatedTime: Number
+  -notes: String
+  --
+  +updatePosition(lat, lng): void
+  +complete(): void
+}
+
+enum DeliveryStatus {
+  assigned
+  going_to_pharmacy
+  picked_up
+  in_transit
+  delivered
+}
+
+class Notification {
+  -_id: ObjectId
+  -userId: ObjectId
+  -title: String
+  -message: String
+  -type: String
+  -isRead: Boolean
+  -data: Object
+  -createdAt: Date
+  --
+  +markAsRead(): void
+}
+
+class Conversation {
+  -_id: ObjectId
+  -participants: ObjectId[]
+  -pharmacyId: ObjectId
+  -lastMessage: String
+  -lastMessageAt: Date
+  --
+  +getMessages(): Message[]
+}
+
+class Message {
+  -_id: ObjectId
+  -conversationId: ObjectId
+  -senderId: ObjectId
+  -content: String
+  -type: MessageType
+  -isRead: Boolean
+  -createdAt: Date
+}
+
+class GeoPoint {
+  -type: String = "Point"
+  -coordinates: Number[]
+}
+
+User "1" -- "0..1" Pharmacy : owns >
+User "1" -- "0..*" Order : places >
+User "1" -- "1" Cart : has >
+User "1" -- "0..*" Notification : receives >
+User "1" -- "0..*" Delivery : assigned >
+
+Pharmacy "1" -- "0..*" Medication : contains >
+Pharmacy "1" -- "0..*" Order : receives >
+
+Order "1" -- "1..*" OrderItem : contains >
+Order "1" -- "0..1" Delivery : has >
+
+Cart "1" -- "0..*" CartItem : contains >
+
+Conversation "1" -- "0..*" Message : contains >
+User "0..*" -- "0..*" Conversation : participates >
+
+User ..> Role : uses
+Order ..> OrderStatus : has
+Order ..> DeliveryType : has
+Delivery ..> DeliveryStatus : has
+
+@enduml

@@ -1,0 +1,53 @@
+@startuml Etat_Commande
+skinparam backgroundColor #FAFAFA
+skinparam state {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+  ArrowColor #388E3C
+  StartColor #2E7D32
+  EndColor #1B5E20
+}
+
+title Diagramme d'États — Cycle de Vie d'une Commande
+
+[*] --> pending : Commande sans ordonnance
+[*] --> pending_prescription : Commande avec ordonnance
+
+pending_prescription --> pending : Ordonnance approuvée\n[pharmacien]
+pending_prescription --> prescription_rejected : Ordonnance rejetée\n[pharmacien]
+
+pending --> confirmed : Pharmacien confirme
+pending --> cancelled : Client annule\n[Stock restauré]
+
+confirmed --> preparing : Pharmacien commence\nla préparation
+confirmed --> cancelled : Client annule\n[Stock restauré]
+
+preparing --> ready : Préparation terminée
+
+ready --> in_delivery : Livreur assigné\net en route
+
+in_delivery --> delivered : Livraison confirmée\n[Livreur]
+
+cancelled --> [*]
+prescription_rejected --> [*]
+delivered --> [*]
+
+note right of pending_prescription
+  Statut intermédiaire :
+  le stock n'est pas
+  encore décrémenté
+end note
+
+note right of cancelled
+  Le stock est restauré
+  automatiquement
+  pour chaque article
+end note
+
+note bottom of in_delivery
+  Suivi GPS en temps réel
+  via WebSocket (Socket.io)
+  ETA calculé par Haversine
+end note
+
+@enduml

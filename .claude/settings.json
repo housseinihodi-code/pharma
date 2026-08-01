@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@demo.com\",\"password\":\"123456\"}')",
+      "Bash(mongosh pharmacy_db --quiet --eval \"db.users.find\\({role:'admin'},{email:1,role:1}\\).toArray\\(\\)\")",
+      "Bash(mongosh pharmacy_db --quiet --eval \"db.users.findOne\\({email:'admin@demo.com'},{password:1,isActive:1,isApproved:1}\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(mongosh pharmacy_db --quiet --eval ' *)",
+      "Bash(curl -s -X POST http://localhost:3000/api/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"admin@demo.com\",\"password\":\"Admin2024!\"}')",
+      "Bash(mongosh pharmacy_db --quiet --eval 'db.users.find\\({email:{$in:['\\\\''client@demo.com'\\\\'','\\\\''pharma@demo.com'\\\\'']}},{email:1,role:1,isActive:1}\\).toArray\\(\\)')",
+      "Bash(curl -s http://localhost:3000/api/auth/login -X POST -H 'Content-Type: application/json' -d '{\"email\":\"admin@demo.com\",\"password\":\"Admin2024!\"}')",
+      "Bash(xelatex --version)",
+      "Bash(kpsewhich fontawesome5.sty)",
+      "Bash(kpsewhich paracol.sty)",
+      "Bash(xelatex -interaction=nonstopmode cv_hodi_housseini.tex)",
+      "Skill(code-review)",
+      "Skill(code-review:*)",
+      "Bash(npm info *)",
+      "Bash(pdfinfo ppst_pharmaconnect.pdf)",
+      "Bash(python3 -c ' *)",
+      "Bash(pdftoppm -png -r 100 -f 1 -l 2 ppst_pharmaconnect.pdf /tmp/page_titre)",
+      "Bash(python3 -)",
+      "Bash(pdftoppm -png -r 100 -f 15 -l 18 ppst_pharmaconnect.pdf /tmp/page_ch4)",
+      "Bash(pdftotext -layout ppst_pharmaconnect.pdf -)",
+      "Bash(pdftotext -layout ppst_pharmaconnect.pdf /tmp/full.txt)",
+      "Bash(awk '/^ *Chapitre 4\\\\.|^ *Profil de/{print NR\": \"$0}' /tmp/full.txt)",
+      "Bash(grep -n \"^ *1[4-8]$\" /tmp/full.txt)",
+      "Bash(pdftoppm -png -r 130 -f 25 -l 27 ppst_pharmaconnect.pdf /tmp/page_team)",
+      "Bash(node test_populate_tmp.js)",
+      "Bash(pdftoppm -png -r 110 -f 1 -l 1 ppst_pharmaconnect.pdf /tmp/page_titre_siantou)",
+      "Bash(pdftoppm -png -r 110 -f 9 -l 9 ppst_pharmaconnect.pdf /tmp/pg9)",
+      "Bash(pdftoppm -png -r 110 -f 21 -l 22 ppst_pharmaconnect.pdf /tmp/pg21)",
+      "Bash(pdftoppm -png -r 110 -f 29 -l 29 ppst_pharmaconnect.pdf /tmp/pg29)",
+      "Bash(echo \"EXIT2:$?\")",
+      "Bash(pdftoppm -png -r 110 -f 22 -l 22 ppst_pharmaconnect.pdf /tmp/pg22fix)",
+      "Bash(pdftoppm -png -r 110 -f 22 -l 22 ppst_pharmaconnect.pdf /tmp/pg22fix2)",
+      "Bash(pdftoppm -png -r 110 -f 22 -l 22 ppst_pharmaconnect.pdf /tmp/pg22final)",
+      "Bash(pdftoppm -png -r 300 -f 22 -l 22 -x 200 -y 200 -W 1400 -H 500 ppst_pharmaconnect.pdf /tmp/pg22_zoom)",
+      "Bash(pdftoppm -png -r 130 -f 29 -l 29 ppst_pharmaconnect.pdf /tmp/pg29_v2)"
+    ]
+  }
+}

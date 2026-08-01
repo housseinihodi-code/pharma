@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#059669" />
+  <title>PharmaConnect — Hors ligne</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f0fdf4;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      text-align: center;
+    }
+    .icon {
+      width: 96px;
+      height: 96px;
+      background: #dcfce7;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 48px;
+    }
+    h1 { font-size: 24px; font-weight: 700; color: #1e293b; margin-bottom: 12px; }
+    p { font-size: 15px; color: #64748b; line-height: 1.6; max-width: 320px; margin: 0 auto 8px; }
+    .tips {
+      background: white;
+      border: 1px solid #d1fae5;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 24px 0;
+      max-width: 360px;
+      width: 100%;
+      text-align: left;
+    }
+    .tips h3 { font-size: 13px; font-weight: 600; color: #059669; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+    .tips ul { list-style: none; }
+    .tips li { font-size: 14px; color: #475569; padding: 6px 0; display: flex; align-items: center; gap: 8px; }
+    .tips li::before { content: "✓"; color: #059669; font-weight: 700; }
+    button {
+      background: #059669;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 32px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #047857; }
+    .logo { font-size: 18px; font-weight: 800; color: #059669; margin-bottom: 4px; }
+    .logo-wrap { margin-bottom: 32px; }
+  </style>
+</head>
+<body>
+  <div class="logo-wrap">
+    <div class="logo">💊 PharmaConnect</div>
+    <div style="font-size:12px;color:#94a3b8">Yaounde, Cameroun</div>
+  </div>
+
+  <div class="icon">📶</div>
+  <h1>Vous êtes hors ligne</h1>
+  <p>Vérifiez votre connexion internet ou votre réseau mobile, puis réessayez.</p>
+
+  <div class="tips">
+    <h3>Disponible sans connexion</h3>
+    <ul>
+      <li>Médicaments déjà consultés</li>
+      <li>Pharmacies mises en cache</li>
+      <li>Vos rappels de médicaments</li>
+      <li>Votre profil et vos favoris</li>
+    </ul>
+  </div>
+
+  <button onclick="window.location.reload()">
+    Réessayer
+  </button>
+
+  <p style="margin-top:20px;font-size:12px;color:#94a3b8">
+    Les données seront synchronisées automatiquement dès le retour de la connexion.
+  </p>
+</body>
+</html>

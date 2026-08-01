@@ -1,0 +1,311 @@
+%% ============================================================
+%%  CV — HODI HOUSSEINI  |  Ultra-moderne  |  XeLaTeX
+%%  1 page garantie : tcolorbox header + TikZ sidebar + paracol
+%% ============================================================
+\documentclass[a4paper,10pt]{article}
+
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setmainlanguage{french}
+
+\usepackage[top=0mm, bottom=0mm, left=0mm, right=0mm, noheadfoot]{geometry}
+
+\usepackage{tikz}
+\usetikzlibrary{calc}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tcolorbox}
+\tcbuselibrary{skins, breakable}
+\usepackage{fontawesome5}
+\usepackage{paracol}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{microtype}
+
+%% ─── Couleurs ───────────────────────────────────────────────
+\definecolor{darkbg}{HTML}{0F172A}
+\definecolor{accent}{HTML}{10B981}
+\definecolor{accentlight}{HTML}{D1FAE5}
+\definecolor{sidetext}{HTML}{CBD5E1}
+\definecolor{graytext}{HTML}{94A3B8}
+\definecolor{lightbg}{HTML}{F8FAFC}
+\definecolor{titlecolor}{HTML}{1E293B}
+
+%% ─── Typo ───────────────────────────────────────────────────
+\setmainfont{DejaVu Sans}
+\hypersetup{hidelinks}
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+
+\newcommand{\sidewidth}{0.315}
+
+%% ─── Barre de compétence ────────────────────────────────────
+\newcommand{\skillbar}[2]{%
+  \begin{tikzpicture}[baseline]
+    \fill[white, opacity=0.10] (0,0) rectangle (3.2cm,2.8pt);
+    \fill[accent] (0,0) rectangle (#2*0.64cm,2.8pt);
+  \end{tikzpicture}\hspace{4pt}{\scriptsize\color{sidetext}#1}\par\vspace{2pt}%
+}
+
+%% ─── Étiquette tech ─────────────────────────────────────────
+\newcommand{\techtag}[1]{%
+  \tikz[baseline=(N.base)]\node[fill=accent!12, text=accent,
+    rounded corners=2pt, inner xsep=3.5pt, inner ysep=1.5pt,
+    font=\tiny\bfseries](N){#1};\hspace{1pt}%
+}
+
+%% ─── Titre section droite ───────────────────────────────────
+\newcommand{\rsection}[2]{%
+  \vspace{2pt}%
+  {\color{titlecolor}\small\bfseries#1\enspace#2}\\[-3pt]%
+  {\color{accent}\rule{\linewidth}{1.2pt}}\par\vspace{3pt}%
+}
+
+%% ─── Titre section gauche ───────────────────────────────────
+\newcommand{\lsection}[2]{%
+  \vspace{3pt}%
+  {\color{accent}\small\bfseries#1\enspace#2}\\[-3pt]%
+  {\color{white!15}\rule{\linewidth}{0.4pt}}\par\vspace{3pt}%
+}
+
+%% ─── Entrée éducation ───────────────────────────────────────
+\newcommand{\eduentry}[4]{%
+  {\scriptsize\color{graytext}\faCalendar*\ \textbf{#1}}\\[0pt]%
+  {\small\bfseries\color{titlecolor}#2}\\[0pt]%
+  {\scriptsize\color{accent}\faUniversity\ #3}\\[0pt]%
+  {\scriptsize\color{graytext}#4}\par\vspace{4pt}%
+}
+
+%% ─── Entrée projet ──────────────────────────────────────────
+\newcommand{\projentry}[3]{%
+  \begin{tcolorbox}[enhanced, blanker,
+    borderline west={2pt}{0pt}{accent},
+    left=6pt, right=0pt, top=0pt, bottom=1pt,
+    before skip=0pt, after skip=2pt]
+    {\small\bfseries\color{titlecolor}#1}\hfill{\tiny\color{graytext}#2}\\[0pt]%
+    {\scriptsize\color{graytext}#3}
+  \end{tcolorbox}%
+}
+
+%% ============================================================
+\begin{document}
+%% ============================================================
+
+%% ─── Fond sidebar pleine hauteur ────────────────────────────
+\begin{tikzpicture}[remember picture, overlay]
+  \fill[darkbg]
+    (current page.north west) rectangle
+    ([xshift=\sidewidth\paperwidth] current page.south west);
+\end{tikzpicture}
+
+%% ═══════════════════════════════════════════════════════════
+%%  HEADER — tcolorbox pleine largeur
+%% ═══════════════════════════════════════════════════════════
+\begin{tcolorbox}[
+  enhanced, colback=darkbg, colframe=darkbg,
+  boxrule=0pt, arc=0pt, sharp corners,
+  left=8mm, right=8mm, top=5mm, bottom=4mm,
+]
+
+\begin{minipage}[c]{0.17\linewidth}
+  \centering
+  \begin{tikzpicture}
+    \draw[accent, line width=2.5pt] (0,0) circle (1.5cm);
+    \fill[titlecolor] (0,0) circle (1.35cm);
+    \node[font=\fontsize{26}{26}\selectfont, text=accent!35] at (0,0) {\faUserCircle};
+  \end{tikzpicture}\\[2pt]
+  {\tiny\color{graytext}\itshape Photo ici}
+\end{minipage}%
+\hfill%
+\begin{minipage}[c]{0.80\linewidth}
+  {\fontsize{24}{28}\selectfont\bfseries\color{white}HODI HOUSSEINI}\\[1pt]
+  {\fontsize{10.5}{13}\selectfont\color{accent}%
+    Développeur Full-Stack\ {\color{graytext!40}\textbullet}\
+    Génie Logiciel \& Bases de Données}\\[1pt]
+  {\small\color{sidetext!60}Disponible pour stage
+    \ {\color{accent}\textbullet}\ alternance
+    \ {\color{accent}\textbullet}\ premier emploi}\\[4pt]
+  {\small
+    \color{accent}\faEnvelope\
+    \color{sidetext}\href{mailto:housseinoihodi@gmail.com}{housseinoihodi@gmail.com}
+    \enspace\color{graytext!40}|\enspace
+    \color{accent}\faPhone\ \color{sidetext}+237 680 255 746
+    \enspace\color{graytext!40}|\enspace
+    \color{accent}\faMapMarker*\ \color{sidetext}Yaoundé, Cameroun
+  }\\[1pt]
+  {\small
+    \color{accent}\faGithub\ \color{sidetext}github.com/hodi-housseini
+    \enspace\color{graytext!40}|\enspace
+    \color{accent}\faLinkedin\ \color{sidetext}linkedin.com/in/hodi-housseini
+  }
+\end{minipage}
+
+\vspace{2.5mm}
+{\color{accent}\rule{\linewidth}{2pt}}
+
+\end{tcolorbox}
+
+%% ═══════════════════════════════════════════════════════════
+%%  CORPS — deux colonnes
+%% ═══════════════════════════════════════════════════════════
+\columnratio{\sidewidth}
+\setlength{\columnsep}{0pt}
+
+\begin{paracol}{2}
+
+%% ───────────────────────────────────────────────────────────
+%%  COLONNE GAUCHE  (sidebar sombre)
+%% ───────────────────────────────────────────────────────────
+\begin{tcolorbox}[enhanced, blanker, left=5mm, right=3.5mm, top=5mm, bottom=5mm]
+
+\lsection{\faUser}{À PROPOS}
+{\scriptsize\color{sidetext}
+  Développeur Full-Stack passionné,
+  je conçois des applications de la base de données
+  à l'interface utilisateur. Curieux, autonome, orienté résultats.
+}
+
+\lsection{\faCode}{DÉVELOPPEMENT}
+\skillbar{JavaScript / TypeScript}{4}
+\skillbar{React.js}{4}
+\skillbar{Node.js / NestJS}{3}
+\skillbar{HTML / CSS / Tailwind}{5}
+\skillbar{Python}{3}
+\skillbar{Java}{2}
+
+\lsection{\faDatabase}{BASES DE DONNÉES}
+\skillbar{MongoDB}{4}
+\skillbar{PostgreSQL / MySQL}{3}
+\skillbar{Modélisation UML}{4}
+\skillbar{Merise / MCD}{4}
+
+\lsection{\faServer}{RÉSEAUX \& SYSTÈMES}
+\skillbar{Maintenance réseaux}{5}
+\skillbar{Git / GitHub}{4}
+\skillbar{Linux / Bash}{3}
+\skillbar{Docker}{2}
+
+\lsection{\faLanguage}{LANGUES}
+\skillbar{Français}{5}
+\skillbar{Sango (RCA)}{5}
+\skillbar{Anglais technique}{3}
+
+\lsection{\faBrain}{SOFT SKILLS}
+\begin{itemize}[leftmargin=3pt, label={}, itemsep=0pt, topsep=0pt, parsep=0pt]
+  \item{\scriptsize\color{accent}\faAngleRight\ \color{sidetext}Travail en équipe}
+  \item{\scriptsize\color{accent}\faAngleRight\ \color{sidetext}Résolution de problèmes}
+  \item{\scriptsize\color{accent}\faAngleRight\ \color{sidetext}Autonomie \& rigueur}
+  \item{\scriptsize\color{accent}\faAngleRight\ \color{sidetext}Adaptabilité}
+  \item{\scriptsize\color{accent}\faAngleRight\ \color{sidetext}Veille technologique}
+\end{itemize}
+
+\lsection{\faHeart}{INTÉRÊTS}
+{\scriptsize\color{sidetext}
+  \faLaptopCode\ Open-source\quad\faRobot\ IA\\[1pt]
+  \faGamepad\ Gaming\quad\faBookOpen\ Tech blog
+}
+
+\end{tcolorbox}
+
+\switchcolumn
+
+%% ───────────────────────────────────────────────────────────
+%%  COLONNE DROITE  (fond blanc)
+%% ───────────────────────────────────────────────────────────
+\begin{tcolorbox}[enhanced, blanker,
+  colback=white, left=6mm, right=5mm, top=5mm, bottom=4mm]
+
+%% ── FORMATION ────────────────────────────────────────────────
+\rsection{\faGraduationCap}{FORMATION}
+
+\eduentry{2022 — En cours}
+  {Licence — Génie Logiciel \& Bases de Données}
+  {ISEIG Supérieur, Yaoundé — Cameroun}
+  {Architecture logicielle, UML, Merise, systèmes distribués, développement Full-Stack, sécurité informatique.}
+
+\eduentry{2020 — 2021}
+  {Baccalauréat — Série Scientifique}
+  {Université d'État des Rapides, Bangui — RCA}
+  {Mathématiques, Physique-Chimie, Sciences naturelles.}
+
+%% ── CERTIFICATIONS ───────────────────────────────────────────
+\rsection{\faCertificate}{DIPLÔMES \& CERTIFICATIONS}
+
+\begin{tcolorbox}[enhanced, colback=accentlight, colframe=accent,
+  boxrule=0.6pt, arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt,
+  before skip=0pt, after skip=3pt]
+  {\small\bfseries\color{accent}\faMedal\quad Diplôme de Qualification Professionnelle}\\[1pt]
+  {\scriptsize\color{titlecolor}\textbf{Maintenance des Réseaux Informatiques}}\\
+  {\scriptsize\color{graytext}Switches, routeurs, TCP/IP, Wi-Fi, câblage structuré, dépannage.}
+\end{tcolorbox}
+
+\begin{tcolorbox}[enhanced, colback=lightbg, colframe=graytext!25,
+  boxrule=0.6pt, arc=3pt, left=5pt, right=5pt, top=3pt, bottom=3pt,
+  before skip=0pt, after skip=3pt]
+  {\small\bfseries\color{titlecolor}\faFileAlt\quad Certificat de Scolarité}\\[1pt]
+  {\scriptsize\color{graytext}Licence Génie Logiciel \& BD — ISEIG Supérieur Yaoundé (en cours)}
+\end{tcolorbox}
+
+%% ── PROJETS ──────────────────────────────────────────────────
+\rsection{\faProjectDiagram}{PROJETS RÉALISÉS}
+
+\projentry
+  {PharmaConnect — Plateforme de santé numérique}
+  {NestJS · React · MongoDB · Socket.io · PWA}
+  {Web/mobile PWA : géolocalisation de pharmacies, commandes, livraison GPS temps réel,
+  identification de médicaments par IA, gestion d'ordonnances, panel admin complet.}
+
+\projentry
+  {Système de Gestion de Bibliothèque}
+  {Python · PostgreSQL · Tkinter}
+  {Gestion des emprunts, catalogue, membres. Modélisation Merise + migration PostgreSQL.}
+
+\projentry
+  {Portfolio Personnel}
+  {React · TailwindCSS · Vite}
+  {Site vitrine responsive, présentant projets et compétences.}
+
+%% ── STACK TECHNOLOGIQUE ──────────────────────────────────────
+\rsection{\faTools}{STACK TECHNOLOGIQUE}
+
+\noindent
+\techtag{JavaScript}\techtag{TypeScript}\techtag{React}\techtag{NestJS}\techtag{Node.js}\techtag{Python}\\[2pt]
+\techtag{MongoDB}\techtag{PostgreSQL}\techtag{MySQL}\techtag{Redis}\techtag{UML}\techtag{Merise}\\[2pt]
+\techtag{Git}\techtag{Docker}\techtag{Linux}\techtag{REST API}\techtag{JWT}\techtag{Socket.io}\\[2pt]
+\techtag{TailwindCSS}\techtag{Figma}\techtag{TCP/IP}\techtag{LaTeX}
+
+\vspace{4pt}
+
+%% ── OBJECTIF ─────────────────────────────────────────────────
+\begin{tcolorbox}[enhanced, colback=darkbg, colframe=accent,
+  boxrule=1pt, arc=4pt, left=7pt, right=7pt, top=4pt, bottom=4pt]
+  {\small\bfseries\color{accent}\faRocket\quad OBJECTIF PROFESSIONNEL}\\[2pt]
+  {\scriptsize\color{sidetext}
+    Étudiant en fin de Licence, je recherche un \textbf{stage} ou une \textbf{alternance}
+    en développement Full-Stack ou ingénierie des données. Fort d'une expérience concrète
+    sur des projets web complexes et d'une qualification réseaux, j'apporte autonomie,
+    curiosité et sens pratique à toute équipe technique.
+  }
+\end{tcolorbox}
+
+\end{tcolorbox}
+
+\end{paracol}
+
+%% ═══════════════════════════════════════════════════════════
+%%  PIED DE PAGE
+%% ═══════════════════════════════════════════════════════════
+\begin{tcolorbox}[enhanced, colback=darkbg, colframe=darkbg,
+  boxrule=0pt, arc=0pt, left=6mm, right=6mm, top=2mm, bottom=2mm]
+{\tiny\color{graytext}\centering
+  \faLock\ Références disponibles sur demande
+  \quad{\color{accent}|}\quad
+  \faCalendar*\ Juin 2026
+  \quad{\color{accent}|}\quad
+  \faPaperPlane\ housseinoihodi@gmail.com
+  \quad{\color{accent}|}\quad
+  \faPhone\ +237 680 255 746
+}
+\end{tcolorbox}
+
+\end{document}

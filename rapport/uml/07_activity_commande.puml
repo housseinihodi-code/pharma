@@ -1,0 +1,80 @@
+@startuml Activite_Processus_Commande
+skinparam backgroundColor #FAFAFA
+skinparam ActivityBackgroundColor #E8F5E9
+skinparam ActivityBorderColor #2E7D32
+skinparam ArrowColor #388E3C
+skinparam ActivityDiamondBackgroundColor #FFF9C4
+skinparam ActivityDiamondBorderColor #F57F17
+
+title Diagramme d'Activité — Processus Complet de Commande
+
+start
+
+:Client parcourt les pharmacies;
+:Sélectionne des médicaments;
+:Ajoute au panier;
+
+repeat
+  :Modifie le panier;
+repeat while (Panier satisfaisant ?) is (Non) not (Oui)
+
+:Passe à la validation;
+
+if (Médicament nécessite une ordonnance ?) then (Oui)
+  :Upload de l'ordonnance (PDF/image);
+  :Statut commande = "pending_prescription";
+  fork
+    :Client attend la validation;
+  fork again
+    :Pharmacien reçoit notification;
+    if (Ordonnance valide ?) then (Oui)
+      :Approuver ordonnance;
+      :Statut = "pending";
+    else (Non)
+      :Rejeter avec motif;
+      :Notifier le client;
+      stop
+    endif
+  end fork
+else (Non)
+  :Statut commande = "pending";
+endif
+
+:Choisit le mode de livraison;
+
+if (Mode de livraison) then (Livraison à domicile)
+  :Saisit l'adresse de livraison;
+  :Choisit le moyen de paiement;
+  :Confirme la commande;
+  :Décrémentation stock;
+  :Panier vidé;
+
+  :Pharmacien confirme → "confirmed";
+  :Pharmacien prépare → "preparing";
+  :Pharmacien prêt → "ready";
+
+  :Livreur assigné;
+  :Livreur se rend à la pharmacie;
+  :Livreur récupère commande → "picked_up";
+  :Suivi GPS en temps réel;
+  :Livreur livre → "delivered";
+
+else (Retrait en pharmacie)
+  :Choisit le moyen de paiement;
+  :Confirme la commande;
+  :Décrémentation stock;
+  :Panier vidé;
+
+  :Pharmacien confirme → "confirmed";
+  :Pharmacien prépare → "preparing";
+  :Pharmacien prêt → "ready";
+  :Client se présente en pharmacie;
+  :Pharmacien marque → "delivered";
+endif
+
+:Client évalue la commande;
+:Notification de confirmation envoyée;
+
+stop
+
+@enduml

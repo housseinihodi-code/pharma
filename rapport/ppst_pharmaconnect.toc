@@ -1,0 +1,69 @@
+\selectlanguage *{french}
+\contentsline {chapter}{Dedicace}{I}{chapter*.1}%
+\contentsline {chapter}{Remerciements}{II}{chapter*.2}%
+\contentsline {chapter}{Liste des figures}{VI}{chapter*.4}%
+\contentsline {chapter}{Liste des tableaux}{VII}{chapter*.5}%
+\contentsline {chapter}{Resume du projet}{VIII}{chapter*.6}%
+\contentsline {chapter}{Abstract}{1}{chapter*.7}%
+\bgroup 
+\selectlanguage *{english}
+\egroup 
+\selectlanguage *{french}
+\contentsline {chapter}{\numberline {1}Description du Projet}{2}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Contexte et justification du projet de specialisation}{2}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Contexte general}{2}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}Justification du projet}{2}{subsection.1.1.2}%
+\contentsline {section}{\numberline {1.2}Problematique et analyse de la problematique}{3}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}Problematique principale}{3}{subsection.1.2.1}%
+\contentsline {subsection}{\numberline {1.2.2}Analyse de la problematique}{3}{subsection.1.2.2}%
+\contentsline {subsection}{\numberline {1.2.3}Arbre a problemes}{3}{subsection.1.2.3}%
+\contentsline {section}{\numberline {1.3}Objectifs du projet de specialisation}{3}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Objectif general}{4}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}Objectifs specifiques}{4}{subsection.1.3.2}%
+\contentsline {section}{\numberline {1.4}Hypotheses du projet de specialisation}{5}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Interets et enjeux du projet de specialisation}{5}{section.1.5}%
+\contentsline {subsection}{\numberline {1.5.1}Interets du projet}{5}{subsection.1.5.1}%
+\contentsline {subsection}{\numberline {1.5.2}Enjeux}{5}{subsection.1.5.2}%
+\contentsline {chapter}{\numberline {2}Etat des Lieux}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Revue des solutions existantes}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Solutions internationales}{7}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Situation au Cameroun}{7}{subsection.2.1.2}%
+\contentsline {section}{\numberline {2.2}Benchmarking des solutions existantes}{8}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Caractere singulier de la solution}{8}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Impact societal de la solution}{9}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Impact sur l'acces aux soins}{9}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Impact economique}{9}{subsection.2.4.2}%
+\contentsline {subsection}{\numberline {2.4.3}Impact environnemental}{9}{subsection.2.4.3}%
+\contentsline {chapter}{\numberline {3}Process et Champs de Competences Academiques et Professionnelles}{10}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Activites de mise en oeuvre de la solution du projet}{10}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Architecture globale du systeme}{10}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Modules developpes}{10}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Pipeline de developpement}{10}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Sources et Collecte des Donnees de Terrain}{11}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Enquete terrain}{11}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Resultats cles de l'enquete}{12}{subsection.3.2.2}%
+\contentsline {section}{\numberline {3.3}Declinaison de l'Ensemble des UE de la Specialite}{12}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Mise en Adequation des Activites avec les Competences des UE}{12}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Exposes des Matieres de Specialites Enrichissant le Projet}{12}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Profil de l'Equipe du Projet}{14}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Distribution du Profil des Ressources Humaines}{14}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Roles des Differents Membres de l'Equipe}{14}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Ventilation des Activites par Membre du Projet}{14}{section.4.3}%
+\contentsline {chapter}{\numberline {5}Demo/Simulation et Mise en Oeuvre du Projet}{16}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Prototypage de la Solution}{16}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Environnement technologique}{16}{subsection.5.1.1}%
+\contentsline {subsection}{\numberline {5.1.2}Schema de la base de donnees -- Collection Medication}{16}{subsection.5.1.2}%
+\contentsline {subsection}{\numberline {5.1.3}Interfaces principales de l'application}{17}{subsection.5.1.3}%
+\contentsline {section}{\numberline {5.2}Scenario de Simulation}{17}{section.5.2}%
+\contentsline {subsection}{\numberline {5.2.1}Scenario 1 : Commande par un patient}{17}{subsection.5.2.1}%
+\contentsline {subsection}{\numberline {5.2.2}Scenario 2 : Identification par photo}{18}{subsection.5.2.2}%
+\contentsline {subsection}{\numberline {5.2.3}Scenario 3 : Gestion des rappels -- patient chronique}{18}{subsection.5.2.3}%
+\contentsline {section}{\numberline {5.3}Indicateurs de Suivi et d'Evaluation du Projet}{18}{section.5.3}%
+\contentsline {chapter}{Conclusion}{20}{chapter*.20}%
+\contentsline {chapter}{Annexes}{20}{chapter*.20}%
+\contentsline {chapter}{\numberline {A}Liste des Abreviations et Symboles}{21}{appendix.A}%
+\contentsline {chapter}{\numberline {B}Extraits de Code Source}{22}{appendix.B}%
+\contentsline {section}{\numberline {B.1}Controleur d'authentification -- NestJS}{22}{section.B.1}%
+\contentsline {section}{\numberline {B.2}Identification medicament par IA -- Anthropic Claude}{22}{section.B.2}%
+\contentsline {chapter}{\numberline {C}Questionnaire d'Enquete Terrain}{24}{appendix.C}%
+\contentsline {chapter}{Bibliographie}{24}{Item.53}%

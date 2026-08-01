@@ -1,0 +1,126 @@
+@startuml Diagramme_Cas_Utilisation
+skinparam backgroundColor #FAFAFA
+
+skinparam usecase {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+  ArrowColor #388E3C
+}
+skinparam actor {
+  BackgroundColor #E3F2FD
+  BorderColor #1565C0
+}
+
+
+title Diagramme des Cas d'Utilisation — PharmaConnect
+
+left to right direction
+
+actor "Client" as C
+actor "Pharmacien" as P
+actor "Livreur" as L
+actor "Administrateur" as A
+
+rectangle "PharmaConnect" {
+
+  package "Authentification" {
+    usecase "S'inscrire" as UC1
+    usecase "Se connecter" as UC2
+    usecase "Rafraîchir le token" as UC3
+    usecase "Se déconnecter" as UC4
+  }
+
+  package "Catalogue & Recherche" {
+    usecase "Parcourir les pharmacies" as UC5
+    usecase "Rechercher un médicament" as UC6
+    usecase "Comparer les prix" as UC7
+    usecase "Voir les détails d'un médicament" as UC8
+  }
+
+  package "Commandes" {
+    usecase "Gérer le panier" as UC9
+    usecase "Passer une commande" as UC10
+    usecase "Uploader une ordonnance" as UC11
+    usecase "Suivre une commande" as UC12
+    usecase "Annuler une commande" as UC13
+    usecase "Renouveler une commande" as UC14
+  }
+
+  package "Livraison" {
+    usecase "Suivre le livreur GPS" as UC15
+    usecase "Accepter une livraison" as UC16
+    usecase "Mettre à jour la position GPS" as UC17
+    usecase "Marquer comme livré" as UC18
+  }
+
+  package "Gestion Pharmacie" {
+    usecase "Gérer les médicaments" as UC19
+    usecase "Gérer les commandes reçues" as UC20
+    usecase "Valider une ordonnance" as UC21
+    usecase "Gérer les livreurs" as UC22
+    usecase "Ouvrir / Fermer la pharmacie" as UC23
+    usecase "Consulter les statistiques" as UC24
+  }
+
+  package "Administration" {
+    usecase "Valider un pharmacien" as UC25
+    usecase "Gérer les utilisateurs" as UC26
+    usecase "Gérer les pharmacies" as UC27
+    usecase "Consulter les statistiques globales" as UC28
+  }
+
+  package "Communication" {
+    usecase "Envoyer un message" as UC29
+    usecase "Recevoir des notifications" as UC30
+  }
+
+  package "Paiement" {
+    usecase "Payer (Mobile Money)" as UC31
+  }
+}
+
+C --> UC1
+C --> UC2
+C --> UC4
+C --> UC5
+C --> UC6
+C --> UC7
+C --> UC8
+C --> UC9
+C --> UC10
+C --> UC11 : <<include>>
+C --> UC12
+C --> UC13
+C --> UC14
+C --> UC15
+C --> UC29
+C --> UC30
+C --> UC31
+
+P --> UC2
+P --> UC19
+P --> UC20
+P --> UC21
+P --> UC22
+P --> UC23
+P --> UC24
+P --> UC29
+P --> UC30
+
+L --> UC2
+L --> UC16
+L --> UC17
+L --> UC18
+L --> UC30
+
+A --> UC2
+A --> UC25
+A --> UC26
+A --> UC27
+A --> UC28
+
+UC10 ..> UC9 : <<include>>
+UC15 ..> UC12 : <<extend>>
+UC14 ..> UC9 : <<include>>
+
+@enduml
