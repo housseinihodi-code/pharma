@@ -13,8 +13,12 @@ async function bootstrap() {
   app.useWebSocketAdapter(new IoAdapter(app));
 
   // CORS
+  // .trim() defends against trailing newlines/whitespace sneaking into the
+  // env var via copy-paste on hosting dashboards, which Node's HTTP layer
+  // rejects outright ("Invalid character in header content").
+  const frontendUrl = (process.env.FRONTEND_URL || 'http://localhost:5173').trim();
   app.enableCors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: frontendUrl,
     credentials: true,
   });
 
